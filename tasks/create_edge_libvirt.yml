@@ -53,7 +53,14 @@
   become_user: root
   retries: 10
   delay: 60
-  until: not virt_info_cmd.failed and virt_info_cmd[instance.name].state == "running"
+  until: not virt_info_cmd.failed and virt_info_cmd[instance.name].state == "shutoff"
+
+
+- name: start vm
+  community.libvirt.virt:
+    name: "{{ instance.name }}"
+    state: running
+    uri: qemu:///session
 
 #arp -n | grep {{ instance.mac }} | awk '{print $1}'
 - name: Wait to get virtual machine IPs locally
