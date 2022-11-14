@@ -34,7 +34,7 @@ Including an example of how to use your role (for instance, with variables passe
     cat edge_vm.yml
     - hosts: client
       roles:
-         - vyos-vm-automation
+         - rhel-edge-vm-automation
 
     cat hosts
     [client]
