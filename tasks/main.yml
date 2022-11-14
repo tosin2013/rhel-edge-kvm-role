@@ -7,3 +7,13 @@
   with_items: "{{ virtual_machines }}"
   loop_control:
     loop_var: "outer_instance"
+  tags: create_vm
+
+- name: Destory virtual machines
+  ansible.builtin.include_tasks: create_edge_libvirt.yml
+  vars:
+    instance: "{{ outer_instance }}"
+  with_items: "{{ virtual_machines }}"
+  loop_control:
+    loop_var: "outer_instance"
+  tags: destroy_vm
