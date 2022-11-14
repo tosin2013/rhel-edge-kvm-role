@@ -86,9 +86,14 @@
   delegate_to: 127.0.0.1
   tags: create_vm
 
+- name: Collect virtual machine ip address
+  tags: create_vm
+  set_fact:
+    vm_ip: "{{ vm_ips.stdout  }}"
+    
 - name: Wait (up to 20 min) for virtual machines SSH to be reachable
   ansible.builtin.wait_for:
-    host: "{{ vm_ips.stdout }}"
+    host: "{{ vm_ip }}"
     port: 22
     state: started
     timeout: 1200
