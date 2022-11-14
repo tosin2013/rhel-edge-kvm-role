@@ -10,7 +10,7 @@
   tags: create_vm
 
 - name: Destory virtual machines
-  ansible.builtin.include_tasks: create_edge_libvirt.yml
+  ansible.builtin.include_tasks: destroy_vm.yml
   vars:
     instance: "{{ outer_instance }}"
   with_items: "{{ virtual_machines }}"

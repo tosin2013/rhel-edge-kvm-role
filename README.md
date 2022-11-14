@@ -48,9 +48,9 @@ Including an example of how to use your role (for instance, with variables passe
 CREATE A VM
 ```
 sudo ansible-playbook  -i hosts runtest.yaml -t create_vm -K
+```
 
-
-DEstroy a VM
+Destroy a VM
 ```
 sudo ansible-playbook  -i hosts runtest.yaml -t destroy_vm -K
 ```
