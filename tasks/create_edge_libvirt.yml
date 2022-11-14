@@ -92,7 +92,7 @@
       { item.item: { 'ip': item.stdout } }, recursive=True) }}"
   with_items: "{{ vm_ips.results }}"
   delegate_to: 127.0.0.1
-
+  tags: create_vm
     
 - name: Wait (up to 20 min) for virtual machines SSH to be reachable
   ansible.builtin.wait_for:
