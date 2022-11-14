@@ -1,12 +1,17 @@
-Role Name
+RHEL Edge KVM Deployer role
 =========
 
-A brief description of the role goes here.
+This role is used to deploy RHEL Edge KVM images that where build from [fleet mananger](https://console.redhat.com/edge/fleet-management).
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+* Ansible 2.9 or higher
+```
+ansible-galaxy collection install community.libvirt
+ansible-galaxy collection install ansible.posix
+ansible-galaxy collection install community.general
+```
 
 Role Variables
 --------------
@@ -16,7 +21,10 @@ A description of the settable variables for this role should go here, including 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+* Ansible 2.9 or higher
+```
+sudo ansible-galaxy install git+https://github.com/tosin2013/rhel-edge-kvm-role.git --force
+```
 
 Example Playbook
 ----------------
