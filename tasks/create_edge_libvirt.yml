@@ -82,10 +82,9 @@
 
 - name: Wait (up to 20 min) for virtual machines SSH to be reachable
   ansible.builtin.wait_for:
-    host: "{{ virtual_machine_inventory[item].ip }}"
+    host: "{{ virtual_machines.stdout }}"
     port: 22
     state: started
     timeout: 1200
   register: ssh_check
   delegate_to: 127.0.0.1
-  with_items: "{{ virtual_machines }}"
