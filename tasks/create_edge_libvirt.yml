@@ -63,7 +63,7 @@
   register: vm_ips
   become: true
   become_user: root
-  with_items: "{{ virtual_machine_inventory }}"
+  with_items: "{{ virtual_machines }}"
   changed_when: false
   failed_when: not vm_ips.stdout | regex_search('[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
   retries: 50
@@ -81,4 +81,4 @@
     timeout: 1200
   register: ssh_check
   delegate_to: 127.0.0.1
-  with_items: "{{ virtual_machine_inventory }}"
+  with_items: "{{ virtual_machines }}"
