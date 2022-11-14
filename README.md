@@ -45,7 +45,15 @@ Including an example of how to use your role (for instance, with variables passe
     [client]
     localhost   ansible_connection=local
 
-    sudo ansible-playbook  -i hosts runtest.yaml -K
+CREATE A VM
+```
+sudo ansible-playbook  -i hosts runtest.yaml -t create_vm -K
+
+
+DEstroy a VM
+```
+sudo ansible-playbook  -i hosts runtest.yaml -t destroy_vm -K
+```
 
 License
 -------
