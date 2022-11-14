@@ -51,8 +51,8 @@
   register: virt_info_cmd
   become: true
   become_user: root
-  retries: 40
-  delay: 80
+  retries: 60
+  delay: 60
   until: not virt_info_cmd.failed and virt_info_cmd[instance.name].state == "shutdown"
 
 
