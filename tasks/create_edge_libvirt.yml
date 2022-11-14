@@ -90,7 +90,8 @@
 - name: Print return information from the previous task
   ansible.builtin.debug:
     var: vm_ips
-
+  tags: create_vm
+  
 - name: Add IPs to inventory
   ansible.builtin.set_fact:
     virtual_machine_inventory: "{{ virtual_machine_inventory| default({}) | combine(
