@@ -86,6 +86,11 @@
   delegate_to: 127.0.0.1
   tags: create_vm
 
+
+- name: Print return information from the previous task
+  ansible.builtin.debug:
+    var: vm_ips
+
 - name: Add IPs to inventory
   ansible.builtin.set_fact:
     virtual_machine_inventory: "{{ virtual_machine_inventory| default({}) | combine(
