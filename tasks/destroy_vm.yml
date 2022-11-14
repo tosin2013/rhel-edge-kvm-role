@@ -21,14 +21,14 @@
 - name: destroy vm
   community.libvirt.virt:
     name: "{{ instance.name }}"
-    state: destroyed
+    command: destroy
     uri: qemu:///session
   tags: destroy_vm
 
 - name: undefine vm
   community.libvirt.virt:
     name: "{{ instance.name }}"
-    state: undefine
+    command: undefine
     uri: qemu:///session
   tags: destroy_vm
 
