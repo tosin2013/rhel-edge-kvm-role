@@ -3,17 +3,17 @@
     name: "{{ instance.name }}"
     command: destroy
     uri: qemu:///session
-  tags: destroy_vm
+  tags: destroy_kvm_vm
 
 - name: undefine vm
   community.libvirt.virt:
     name: "{{ instance.name }}"
     command: undefine
     uri: qemu:///session
-  tags: destroy_vm
+  tags: destroy_kvm_vm
 
 - name: Remove qcow image
   ansible.builtin.file:
     path: "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2"
     state: absent
-  tags: destroy_vm
+  tags: destroy_kvm_vm

@@ -77,12 +77,12 @@ Including an example of how to use your role (for instance, with variables passe
 
 CREATE A VM
 ```
-sudo ansible-playbook  -i hosts edge_vm.yml -t create_vm -K
+sudo ansible-playbook  -i hosts edge_vm.yml -t create_kvm_vm -K
 ```
 
 Destroy a VM
 ```
-sudo ansible-playbook  -i hosts edge_vm.yml -t destroy_vm -K
+sudo ansible-playbook  -i hosts edge_vm.yml -t destroy_kvm_vm -K
 ```
 
 License

@@ -7,13 +7,13 @@
   with_items: "{{ virtual_machines }}"
   loop_control:
     loop_var: "outer_instance"
-  tags: create_vm
+  tags: create_kvm_vm
 
 - name: Destory virtual machines
-  ansible.builtin.include_tasks: destroy_vm.yml
+  ansible.builtin.include_tasks: destroy_kvm_vm.yml
   vars:
     instance: "{{ outer_instance }}"
   with_items: "{{ virtual_machines }}"
   loop_control:
     loop_var: "outer_instance"
-  tags: destroy_vm
+  tags: destroy_kvm_vm
