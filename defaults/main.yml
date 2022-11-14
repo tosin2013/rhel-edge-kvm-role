@@ -3,7 +3,7 @@
 
 libvirt_image_dir: /var/lib/libvirt/images
 libvirt_iso_dir:  /var/lib/libvirt/images
-libvirt_iso_name: test-image-11-13-2022-b1.iso
+libvirt_iso_name: rhel-edge-kvm.iso
 libvirt_vm_name:  rhel-edge-kvm
 template_dir: /tmp/
 libvirt_defaults:

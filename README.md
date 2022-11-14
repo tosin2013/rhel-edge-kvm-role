@@ -21,7 +21,37 @@ sudo yum install nmap -y
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```
+
+libvirt_image_dir: /var/lib/libvirt/images
+libvirt_iso_dir:  /var/lib/libvirt/images
+libvirt_iso_name: rhel-edge-kvm.iso
+libvirt_vm_name:  rhel-edge-kvm
+template_dir: /tmp/
+libvirt_defaults:
+  edge_device:
+    cpu: 2
+    memory: 2097152 
+
+virtual_machines:
+  - name: "{{ libvirt_vm_name }}"
+    hostname: "{{ libvirt_vm_name }}" # there is a character limit with the hostname it will brake sysprep
+    password: "{{ libvirt_vm_name }}"
+    os: "rhel85"
+    isos:
+      - name: "{{ libvirt_iso_name }}"
+        dev: sdb
+    disk_size: 20G
+    image_index: 2
+    image_name: "RHEL Edge image"
+    disk_iso: "{{ libvirt_vm_name }}"
+    connection_type: "bridge" # "bridge" or "network" bridge is default
+    bridgename: "provisioning" 
+    bridge_mac: 52:54:00:fe:75:40
+    vlanid: 0 # use 503 in network mode for emulated lab or 0 in hardware bridge mode
+    subnet: "192.168.1.1/24"
+    secondary_dns: 1.1.1.1
+```
 
 Dependencies
 ------------
