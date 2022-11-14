@@ -34,13 +34,13 @@ Including an example of how to use your role (for instance, with variables passe
     cat edge_vm.yml
     - hosts: client
       roles:
-         - rhel-edge-vm-automation
+        - rhel-edge-kvm-role
 
     cat hosts
     [client]
     localhost   ansible_connection=local
 
-    ansible-playbook  -i hosts runtest.yaml -K
+    sudo ansible-playbook  -i hosts runtest.yaml -K
 
 License
 -------
