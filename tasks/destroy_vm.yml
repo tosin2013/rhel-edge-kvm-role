@@ -3,6 +3,7 @@
     name: "{{ instance.name }}"
     state: shutdown
     uri: qemu:///session
+  tags: destroy_vm
 
 - name: Get virtual machine info
   community.libvirt.virt:
@@ -15,20 +16,24 @@
   retries: 60
   delay: 60
   until: not virt_info_cmd.failed and virt_info_cmd[instance.name].state == "shutdown"
+  tags: destroy_vm
 
 - name: destroy vm
   community.libvirt.virt:
     name: "{{ instance.name }}"
     state: destroy
     uri: qemu:///session
+  tags: destroy_vm
 
 - name: undefine vm
   community.libvirt.virt:
     name: "{{ instance.name }}"
     state: undefine
     uri: qemu:///session
+  tags: destroy_vm
 
 - name: Remove qcow image
   ansible.builtin.file:
     path: "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2"
     state: absent
+  tags: destroy_vm
