@@ -2,17 +2,20 @@
   stat:
     path: "{{template_dir}}/{{libvirt_iso_name}}"
   register: iso_temp_location
+  tags: create_vm
 
 - name: Copy ISO to libvirt image directory
   ansible.builtin.copy:
     src:  "{{ template_dir }}/{{ libvirt_iso_name }}"
     dest:  "{{ libvirt_image_dir }}/{{ libvirt_iso_name }}"
   when: iso_temp_location.stat.exists
-
+  tags: create_vm
+  
 - name: Set instance_uuid variable
   ansible.builtin.set_fact:
     instance_uuid: "{{ instance.uuid | default(99999999 | random | to_uuid) }}"
-    
+  tags: create_vm
+
 - name: Create disk
   ansible.builtin.shell: >
     if [ ! -r "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2" ]; then
@@ -22,6 +25,7 @@
   register: create_disk
   become: true
   become_user: root
+  tags: create_vm
 
 - name: Define virtual machine
   community.libvirt.virt:
@@ -30,6 +34,7 @@
     uri: qemu:///session
   become: true
   become_user: root
+  tags: create_vm
 
 - name: Create virtual machine
   community.libvirt.virt:
@@ -42,7 +47,8 @@
   register: create_vm
   become: true
   become_user: root
-  
+  tags: create_vm
+
 - name: Get virtual machine info
   community.libvirt.virt:
     command: info
@@ -54,13 +60,14 @@
   retries: 60
   delay: 60
   until: not virt_info_cmd.failed and virt_info_cmd[instance.name].state == "shutdown"
-
+  tags: create_vm
 
 - name: start vm
   community.libvirt.virt:
     name: "{{ instance.name }}"
     state: running
     uri: qemu:///session
+  tags: create_vm
 
 #arp -n | grep {{ instance.mac }} | awk '{print $1}'
 - name: Wait to get virtual machine IPs locally
@@ -77,8 +84,7 @@
   delay: 30
   until: vm_ips is not failed
   delegate_to: 127.0.0.1
-  tags:
-    - skip_ansible_lint
+  tags: create_vm
 
 - name: Wait (up to 20 min) for virtual machines SSH to be reachable
   ansible.builtin.wait_for:
@@ -88,3 +94,4 @@
     timeout: 1200
   register: ssh_check
   delegate_to: 127.0.0.1
+  tags: create_vm
