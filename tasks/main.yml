@@ -1,2 +1,9 @@
 ---
 # tasks file for rhel-edge-kvm-role
+- name: Create virtual machines
+  ansible.builtin.include_tasks: create_edge_libvirt.yml
+  vars:
+    instance: "{{ outer_instance }}"
+  with_items: "{{ virtual_machines }}"
+  loop_control:
+    loop_var: "outer_instance"

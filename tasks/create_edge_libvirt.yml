@@ -1,0 +1,33 @@
+- name: Check For Iso location
+  stat:
+    path: "{{template_dir}}/{{libvirt_iso_name}}"
+  register: iso_temp_location
+
+- name: Copy ISO to libvirt image directory
+  ansible.builtin.copy:
+    src:  "{{ template_dir }}/{{ libvirt_iso_name }}"
+    dest:  "{{ libvirt_image_dir }}/{{ libvirt_iso_name }}"
+  when: iso_temp_location.stat.exists
+
+- name: Set instance_uuid variable
+  ansible.builtin.set_fact:
+    instance_uuid: "{{ instance.uuid | default(99999999 | random | to_uuid) }}"
+    
+- name: Create disk
+  ansible.builtin.shell: >
+    if [ ! -r "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2" ]; then
+      qemu-img create -f qcow2 {{ libvirt_image_dir }}/{{ instance.name }}.qcow2 {{ instance.disk_size }}>  /dev/null;
+      echo "created"
+    fi
+  register: create_disk
+  become: true
+  become_user: root
+
+
+- name: Define virtual machine
+  community.libvirt.virt:
+    command: define
+    xml: "{{ lookup('template', 'vyos-libvirt-vm-config.xml.j2') }}"
+    uri: qemu:///session
+  become: true
+  become_user: root
