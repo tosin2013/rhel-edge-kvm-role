@@ -1,4 +1,4 @@
-- name: Check For Iso location
+- name: Check For ISO location
   stat:
     path: "{{template_dir}}/{{libvirt_iso_name}}"
   register: iso_temp_location
@@ -23,11 +23,62 @@
   become: true
   become_user: root
 
-
 - name: Define virtual machine
   community.libvirt.virt:
     command: define
-    xml: "{{ lookup('template', 'vyos-libvirt-vm-config.xml.j2') }}"
+    xml: "{{ lookup('template', 'rhel-edge-libvirt-vm-config.xml.j2') }}"
     uri: qemu:///session
   become: true
   become_user: root
+
+- name: Create virtual machine
+  community.libvirt.virt:
+    command: create
+    name: "{{ instance.name }}"
+    xml: "{{ lookup('template', 'rhel-edge-libvirt-vm-config.xml.j2') }}"
+    state: running
+    autostart: true
+    uri: qemu:///session
+  register: create_vm
+  become: true
+  become_user: root
+  
+- name: Get virtual machine info
+  community.libvirt.virt:
+    command: info
+    name: "{{ instance.name }}"
+    uri: qemu:///session
+  register: virt_info_cmd
+  become: true
+  become_user: root
+  retries: 10
+  delay: 60
+  until: not virt_info_cmd.failed and virt_info_cmd[instance.name].state == "running"
+
+#arp -n | grep {{ instance.mac }} | awk '{print $1}'
+- name: Wait to get virtual machine IPs locally
+  ansible.builtin.shell: |
+    set -o pipefail
+    nmap -sP {{ instance.subnet }} | grep  -B2  {{ instance.mac|upper }}  | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'|| arp -an  | grep {{ instance.mac |lower }} | awk '{print $2}' | sed '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}'
+  register: vm_ips
+  become: true
+  become_user: root
+  with_items: "{{ virtual_machine_inventory }}"
+  changed_when: false
+  failed_when: not vm_ips.stdout | regex_search('[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+')
+  retries: 50
+  delay: 30
+  until: vm_ips is not failed
+  delegate_to: 127.0.0.1
+  tags:
+    - skip_ansible_lint
+
+- name: Wait (up to 20 min) for virtual machines SSH to be reachable
+  ansible.builtin.wait_for:
+    host: "{{ virtual_machine_inventory[item].ip }}"
+    port: 22
+    state: started
+    timeout: 1200
+  register: ssh_check
+  delegate_to: 127.0.0.1
+  with_items: "{{ virtual_machine_inventory }}"
