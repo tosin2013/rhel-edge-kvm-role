@@ -119,7 +119,7 @@
       <alias name='pci.7'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x6'/>
     </controller>
-    <interface type='bridge'>
+    <interface type='{{ instance.connection_type }}'>
       <mac address='{{ instance.bridge_mac }}'/>
       <source bridge='{{ instance.bridgename }}'/>
       <model type='virtio'/>
