@@ -119,13 +119,21 @@
       <alias name='pci.7'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x6'/>
     </controller>
-    <interface type='{{ instance.connection_type }}'>
+{% if 'bridge' in instance.connection_type %}
+    <interface type='bridge'>
       <mac address='{{ instance.bridge_mac }}'/>
-      <source bridge='{{ instance.bridgename }}'/>
+      <source bridge='{{ instance.bridgename }}'/>      
       <model type='virtio'/>
-      <alias name='net0'/>
       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
     </interface>
+{% else %}
+    <interface type='network'>
+      <mac address='{{ instance.bridge_mac }}'/>
+      <source network='{{ instance.bridgename }}'/>      
+      <model type='virtio'/>
+      <address type='pci' domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+    </interface>
+{% endif %}
     <serial type='pty'>
       <source path='/dev/pts/12'/>
       <target type='isa-serial' port='0'>
