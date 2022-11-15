@@ -8,7 +8,7 @@
   ansible.builtin.copy:
     src:  "{{ template_dir }}/{{ libvirt_iso_name }}"
     dest:  "{{ libvirt_image_dir }}/{{ libvirt_iso_name }}"
-    remote_src: no
+    remote_src: yes
   when: iso_temp_location.stat.exists
   tags: create_kvm_vm
   
