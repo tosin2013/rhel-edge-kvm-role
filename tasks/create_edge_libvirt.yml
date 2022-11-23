@@ -84,7 +84,7 @@
   retries: 50
   delay: 30
   until: vm_ips is not failed
-  delegate_to: 127.0.0.1
+  #delegate_to: 127.0.0.1
   tags: create_kvm_vm
 
 
@@ -101,5 +101,5 @@
     state: started
     timeout: 1200
   register: ssh_check
-  delegate_to: 127.0.0.1
+  #delegate_to: 127.0.0.1
   tags: create_kvm_vm
