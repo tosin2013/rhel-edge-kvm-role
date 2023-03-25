@@ -10,6 +10,7 @@
     dest:  "{{ libvirt_image_dir }}/{{ libvirt_iso_name }}"
     remote_src: yes
   when: iso_temp_location.stat.exists
+  become_user: root
   tags: create_kvm_vm
   
 - name: Set instance_uuid variable
