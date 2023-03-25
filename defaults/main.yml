@@ -1,6 +1,7 @@
 ---
 # defaults file for rhel-edge-kvm-role
 
+qemu_session: qemu:///session # "qemu+ssh://<username>@<remote-host>/system?keyfile=/path/to/private/key"
 libvirt_image_dir: /var/lib/libvirt/images
 libvirt_iso_dir:  /var/lib/libvirt/images
 libvirt_iso_name: rhel-edge-kvm.iso
