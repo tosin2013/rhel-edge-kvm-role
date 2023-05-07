@@ -3,6 +3,9 @@ RHEL Edge KVM Deployer role
 
 This role is used to deploy RHEL Edge KVM images that where build from [fleet mananger](https://console.redhat.com/edge/fleet-management).
 
+
+[![ansible-lint](https://github.com/tosin2013/rhel-edge-kvm-role/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/tosin2013/rhel-edge-kvm-role/actions/workflows/ansible-lint.yml)
+
 Requirements
 ------------
 
