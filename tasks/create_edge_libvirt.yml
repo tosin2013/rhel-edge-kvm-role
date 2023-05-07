@@ -20,11 +20,17 @@
   tags: create_kvm_vm
 
 - name: Create disk
-  ansible.builtin.shell: >
-    if [ ! -r "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2" ]; then
-      qemu-img create -f qcow2 {{ libvirt_image_dir }}/{{ instance.name }}.qcow2 {{ instance.disk_size }}>  /dev/null;
-      echo "created"
-    fi
+  ansible.builtin.stat:
+    path: "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2"
+  register: disk_stat
+  become: true
+  become_user: root
+  tags: create_kvm_vm
+
+- name: Create disk if necessary
+  ansible.builtin.command: >
+    qemu-img create -f qcow2 {{ libvirt_image_dir }}/{{ instance.name }}.qcow2 {{ instance.disk_size }}
+  when: not disk_stat.stat.exists or disk_stat.stat.size != instance.disk_size
   register: create_disk
   become: true
   become_user: root
