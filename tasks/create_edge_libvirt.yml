@@ -86,7 +86,7 @@
   retries: 50
   delay: 30
   until: vm_ips is not failed
-  #delegate_to: 127.0.0.1
+  # delegate_to: 127.0.0.1
   tags: create_kvm_vm
 
 
@@ -95,13 +95,12 @@
     var: vm_ips.results.0.stdout
   tags: create_kvm_vm
 
-    
 - name: Wait (up to 20 min) for virtual machines SSH to be reachable
   ansible.builtin.wait_for:
-    host:  "{{ vm_ips.results.0.stdout }}"
+    host: "{{ vm_ips.results.0.stdout }}"
     port: 22
     state: started
     timeout: 1200
   register: ssh_check
-  #delegate_to: 127.0.0.1
+  # delegate_to: 127.0.0.1
   tags: create_kvm_vm

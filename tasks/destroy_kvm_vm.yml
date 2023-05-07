@@ -1,11 +1,11 @@
-- name: destroy vm
+- name: Destroy VM
   community.libvirt.virt:
     name: "{{ instance.name }}"
     command: destroy
     uri: "{{ qemu_session }}"
   tags: destroy_kvm_vm
 
-- name: undefine vm
+- name: Undefine VM
   community.libvirt.virt:
     name: "{{ instance.name }}"
     command: undefine
