@@ -13,7 +13,7 @@
     <partition>/machine</partition>
   </resource>
   <os>
-    <type arch='x86_64' machine='pc-q35-rhel8.6.0'>hvm</type>
+    <type arch='x86_64' machine='{{ machine_type }}'>hvm</type>
     <boot dev='hd'/>
     <boot dev='cdrom'/>
   </os>
@@ -40,7 +40,7 @@
     <suspend-to-disk enabled='no'/>
   </pm>
   <devices>
-    <emulator>/usr/libexec/qemu-kvm</emulator>
+    <emulator>{{ kvm_emulator }}</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2' cache='none'/>
       <source file='{{ libvirt_image_dir }}/{{ instance.name }}.qcow2' index='1'/>
