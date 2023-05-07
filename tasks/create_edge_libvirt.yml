@@ -1,6 +1,6 @@
 - name: Check For ISO location
   ansible.builtin.stat:
-    path: "{{template_dir}}/{{libvirt_iso_name}}"
+    path: "{{ template_dir }}/{{ libvirt_iso_name }}"
   register: iso_temp_location
   tags: create_kvm_vm
 
