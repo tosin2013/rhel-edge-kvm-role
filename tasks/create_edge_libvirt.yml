@@ -1,19 +1,19 @@
 - name: Check For ISO location
-  stat:
+  ansible.builtin.stat:
     path: "{{template_dir}}/{{libvirt_iso_name}}"
   register: iso_temp_location
   tags: create_kvm_vm
 
 - name: Copy ISO to libvirt image directory
   ansible.builtin.copy:
-    src:  "{{ template_dir }}/{{ libvirt_iso_name }}"
-    dest:  "{{ libvirt_image_dir }}/{{ libvirt_iso_name }}"
-    remote_src: yes
+    src: "{{ template_dir }}/{{ libvirt_iso_name }}"
+    dest: "{{ libvirt_image_dir }}/{{ libvirt_iso_name }}"
+    remote_src: true
   when: iso_temp_location.stat.exists
   become: true
   become_user: root
   tags: create_kvm_vm
-  
+
 - name: Set instance_uuid variable
   ansible.builtin.set_fact:
     instance_uuid: "{{ instance.uuid | default(99999999 | random | to_uuid) }}"
@@ -65,14 +65,14 @@
   until: not virt_info_cmd.failed and virt_info_cmd[instance.name].state == "shutdown"
   tags: create_kvm_vm
 
-- name: start vm
+- name: Start VM
   community.libvirt.virt:
     name: "{{ instance.name }}"
     state: running
     uri: "{{ qemu_session }}"
   tags: create_kvm_vm
 
-#arp -n | grep {{ instance.mac }} | awk '{print $1}'
+# arp -n | grep {{ instance.mac }} | awk '{print $1}'
 - name: Wait to get virtual machine IPs locally
   ansible.builtin.shell: |
     set -o pipefail
