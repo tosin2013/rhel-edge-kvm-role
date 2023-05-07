@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: rhel-edge-kvm-role  # if absent directory name hosting role is used instead
+  role_name: rhel_edge_kvm_role  # if absent directory name hosting role is used instead
   namespace: tosin2013  #
   author: Tosin Akinosho
   description: This role is used to deploy RHEL Edge KVM images that where build from fleet mananger.
