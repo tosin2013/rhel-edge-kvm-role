@@ -25,7 +25,7 @@ Role Variables
 --------------
 
 ```
-
+iso_url: "https://example.com/rhel-edge-kvm.iso"
 libvirt_image_dir: /var/lib/libvirt/images
 libvirt_iso_dir:  /var/lib/libvirt/images
 libvirt_iso_name: rhel-edge-kvm.iso

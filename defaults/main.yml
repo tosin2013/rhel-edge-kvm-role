@@ -2,11 +2,13 @@
 # defaults file for rhel-edge-kvm-role
 
 machine_type: pc-q35-rhel8.6.0 # RHEL 8.7 
+iso_url: "https://example.com/rhel-edge-kvm.iso"
 qemu_session: qemu:///session # "qemu+ssh://<username>@<remote-host>/system?keyfile=/path/to/private/key?no_verify=1&socket=/var/run/libvirt/libvirt-sock"
 kvm_emulator: /usr/libexec/qemu-kvm # /usr/bin/qemu-kvm 
 libvirt_image_dir: /var/lib/libvirt/images
 libvirt_iso_dir:  /var/lib/libvirt/images
 libvirt_iso_name: rhel-edge-kvm.iso
+iso_dest: "{{ libvirt_iso_dir }}/{{ libvirt_iso_name }}"
 libvirt_vm_name:  rhel-edge-kvm
 template_dir: /tmp/
 libvirt_defaults:

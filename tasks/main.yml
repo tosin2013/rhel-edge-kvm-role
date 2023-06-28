@@ -1,5 +1,10 @@
 ---
 # tasks file for rhel-edge-kvm-role
+# Download ISO image
+- name: Download ISO image
+  ansible.builtin.include_tasks: download_iso.yml
+
+# Create virtual machines
 - name: Create virtual machines
   ansible.builtin.include_tasks: create_edge_libvirt.yml
   vars:
@@ -9,6 +14,7 @@
     loop_var: "outer_instance"
   tags: create_kvm_vm
 
+# Destroy virtual machines
 - name: Destory virtual machines
   ansible.builtin.include_tasks: destroy_kvm_vm.yml
   vars:

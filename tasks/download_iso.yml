@@ -1,0 +1,22 @@
+# Check if the ISO image is already downloaded
+- name: Check if the ISO image is already downloaded
+  ansible.builtin.stat:
+    path: "{{ iso_dest }}"
+  register: iso_stat
+  tags:
+    - download_iso
+
+# Download the ISO image 
+- name: Download ISO image
+  ansible.builtin.get_url:
+    url: "{{ iso_url }}"
+    dest: "{{ iso_dest }}"
+    mode: 0755
+  register: download_iso
+  until: download_iso is succeeded
+  retries: 5
+  delay: 10
+  tags:
+    - download_iso
+  when: iso_stat.stat.exists == False
+
