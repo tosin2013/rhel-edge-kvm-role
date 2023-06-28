@@ -17,3 +17,9 @@
     path: "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2"
     state: absent
   tags: destroy_kvm_vm
+
+- name: Remove ISO download
+  ansible.builtin.file:
+    path: "{{ iso_dest }}"
+    state: absent
+  tags: destroy_kvm_vm
