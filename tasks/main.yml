@@ -3,6 +3,7 @@
 # Download ISO image
 - name: Download ISO image
   ansible.builtin.include_tasks: download_iso.yml
+  tags: download_iso
 
 # Create virtual machines
 - name: Create virtual machines

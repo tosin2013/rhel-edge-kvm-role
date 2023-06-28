@@ -80,7 +80,7 @@ Including an example of how to use your role (for instance, with variables passe
 
 CREATE A VM
 ```
-sudo ansible-playbook  -i hosts edge_vm.yml -t create_kvm_vm -K
+sudo ansible-playbook  -i hosts edge_vm.yml -t download_iso,create_kvm_vm -K
 ```
 
 Destroy a VM
