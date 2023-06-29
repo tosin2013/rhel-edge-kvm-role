@@ -40,7 +40,6 @@
   community.libvirt.virt:
     command: define
     xml: "{{ lookup('template', 'rhel-edge-libvirt-vm-config.xml.j2') }}"
-    uri: "{{ qemu_session }}"
   become: true
   become_user: root
   tags: create_kvm_vm
@@ -52,7 +51,6 @@
     xml: "{{ lookup('template', 'rhel-edge-libvirt-vm-config.xml.j2') }}"
     state: running
     autostart: true
-    uri: "{{ qemu_session }}"
   register: create_kvm_vm
   become: true
   become_user: root
@@ -62,7 +60,6 @@
   community.libvirt.virt:
     command: info
     name: "{{ instance.name }}"
-    uri: "{{ qemu_session }}"
   register: virt_info_cmd
   become: true
   become_user: root
@@ -75,7 +72,6 @@
   community.libvirt.virt:
     name: "{{ instance.name }}"
     state: running
-    uri: "{{ qemu_session }}"
   tags: create_kvm_vm
 
 # arp -n | grep {{ instance.mac }} | awk '{print $1}'

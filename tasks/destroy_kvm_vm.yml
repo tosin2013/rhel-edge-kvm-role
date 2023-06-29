@@ -1,25 +1,42 @@
+- name: List only running VMs
+  community.libvirt.virt:
+    command: list_vms
+    state: running
+  register: running_vms
+  tags: destroy_kvm_vm
+
+# Debug list of running VMs
+- name: Debug list of running VMs
+  ansible.builtin.debug:
+    msg: "{{ running_vms.list_vms }}"
+  tags: destroy_kvm_vm
+
 - name: Destroy VM
   community.libvirt.virt:
     name: "{{ instance.name }}"
     command: destroy
-    uri: "{{ qemu_session }}"
+  ignore_errors: true
   tags: destroy_kvm_vm
 
 - name: Undefine VM
   community.libvirt.virt:
     name: "{{ instance.name }}"
     command: undefine
-    uri: "{{ qemu_session }}"
+  ignore_errors: true
   tags: destroy_kvm_vm
 
 - name: Remove qcow image
   ansible.builtin.file:
     path: "{{ libvirt_image_dir }}/{{ instance.name }}.qcow2"
     state: absent
+  become: true
+  become_user: root
   tags: destroy_kvm_vm
 
 - name: Remove ISO download
   ansible.builtin.file:
     path: "{{ iso_dest }}"
     state: absent
+  become: true
+  become_user: root
   tags: destroy_kvm_vm

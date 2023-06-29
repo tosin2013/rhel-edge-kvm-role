@@ -14,7 +14,7 @@
     mode: 0755
   register: download_iso
   until: download_iso is succeeded
-  retries: 30
+  retries: 120
   delay: 10
   tags:
     - download_iso
